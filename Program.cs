@@ -3,7 +3,7 @@ namespace ConsoleApp1
 {
     internal class Program
     {
-        static void modify(int vl)
+        static void modify(ref int vl)
         {
             vl++;
             Console.WriteLine(vl);
@@ -21,7 +21,7 @@ namespace ConsoleApp1
         after:
             Console.WriteLine("not");
             Console.WriteLine(age);
-            modify(age);
+            modify(ref age);
             Console.WriteLine(age);
 
 
