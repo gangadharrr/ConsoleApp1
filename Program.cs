@@ -13,16 +13,18 @@ namespace ConsoleApp1
     {
        
        public static void Main(string[] args)
-        {
-            Dictionary <int,int> hashtable = new Dictionary<int,int>();
+        {  
             Console.Write("Enter elements in Single Line with Space: ");
-            List <int> arr1= Console.ReadLine().TrimEnd().Split(" ").ToList().Select(x => Convert.ToInt32(x)).ToList();
-            Console.Write("\nEnter elements in Single Line with Space: ");
-            List <int> arr2= Console.ReadLine().TrimEnd().Split(" ").ToList().Select(x => Convert.ToInt32(x)).ToList();
-            arr1=arr1.Concat(arr2).ToList();
-            arr1.Sort();
-            Console.Write($"[{string.Join(",",arr1)}]");
-            
+            List <int> arr= Console.ReadLine().TrimEnd().Split(" ").ToList().Select(x => Convert.ToInt32(x)).ToList();
+            List <int> oddList = new List<int>();
+            List <int> evenList = new List<int>();
+            foreach(var a in arr)
+            {
+                if((a&1)==1) oddList.Add(a);
+                else evenList.Add(a);
+            }
+            Console.WriteLine($"Odd list:[{string.Join(",",oddList)}]");
+            Console.WriteLine($"Even list:[{string.Join(",",evenList)}]");
         }    
     }
 }
