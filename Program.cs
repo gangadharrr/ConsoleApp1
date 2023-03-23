@@ -6,23 +6,22 @@ namespace ConsoleApp1
     internal class Program
     {
 
-        public struct Triangle
+        public enum Days
         {
-            public int side1;
-            public int side2;
-            public int side3;
-            public int CalculatePerimeter()
-            {
-                return this.side1+this.side2+this.side3;
-            }
+            sunday,monday,tuesday,wednesday,thursday,friday,saturday
+        }
+        public enum naturalnumbers
+        { 
+            x=1, y=2, z=3,
         }
         public static void Main(string[] args)
         {
-            Triangle triangle = new Triangle();
-            triangle.side1 = 10;
-            triangle.side2 = 20;
-            triangle.side3 = 30;
-            Console.WriteLine($"Perimeter of Triangle : {triangle.CalculatePerimeter()}");
+            int a=(int) Days.sunday;
+            foreach (int i in Enum.GetValues(typeof(Days)))
+                Console.Write(Enum.GetName(typeof(Days),i)+" ");
+            Console.WriteLine();
+            foreach (int i in Enum.GetValues(typeof(naturalnumbers)))
+                Console.Write(Enum.GetName(typeof(naturalnumbers), i)+" ");
         }    
     }
 }
