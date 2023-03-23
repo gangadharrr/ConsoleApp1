@@ -2,52 +2,31 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Collections;
+using System.ComponentModel;
 
+//1) Write a program in C# Sharp to count a total number of duplicate elements in an array.
+//2) Write a program in C# Sharp to merge two arrays of same size sorted in ascending order.
+//3) Write a program in C# Sharp to separate odd and even integers in separate arrays
 namespace ConsoleApp1
 {
     internal class Program
     {
-       /* public static void Main(string[] args)
-        {
-            Console.Write("No. CommonBullets :");
-            int co = Convert.ToInt32(Console.ReadLine());
-            int HeroBullets = co;
-            Console.WriteLine();
-            int VillanBullets = co;
-            Console.WriteLine($"Time T  Hero Bullets VillanBullets");
-            int i = 0;
-            while (HeroBullets > 0 || VillanBullets > 0)
-            {
-                Console.WriteLine($"  {i}           {HeroBullets}            {VillanBullets}      ");
-                i++;
-                if (HeroBullets > 0)
-                    HeroBullets--;
-                if (VillanBullets > 0)
-                    VillanBullets -= 3;
-            }
-        }*/
-
+       
        public static void Main(string[] args)
         {
-            Console.Write("No. HeroBullets :");
-            int HeroBullets = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine();
-            Console.Write("No. VillanBullets :");
-            int VillanBullets = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine();
-            Console.WriteLine($"Time T  Hero Bullets VillanBullets");
-            int i = 0;
-            while (HeroBullets > 0&& VillanBullets>0)
+            Dictionary <int,int> hashtable = new Dictionary<int,int>();
+            Console.Write("Enter elements in Single Line with Space: ");
+            List <int> arr= Console.ReadLine().TrimEnd().Split(" ").ToList().Select(x => Convert.ToInt32(x)).ToList();
+            int count = 0;
+            foreach (int i in arr) 
             {
-                Console.WriteLine($"  {i}           {HeroBullets}            {VillanBullets}      ");
-                i++;
-                if(HeroBullets>0)
-                    HeroBullets--;
-                if (VillanBullets > 0)
-                    VillanBullets -= 3;
+                hashtable[i] = (hashtable.TryGetValue(i, out var value) ? value :0)+1;
             }
-            Console.WriteLine(HeroBullets>VillanBullets?"!!!! Hero Wins!!!!": "!!!! Villan Wins !!!!");
-
+            foreach (KeyValuePair<int, int> item in hashtable)
+            {
+                if(item.Value > 1)count++;
+            }
+            Console.WriteLine($"No. of Duplicate elements in array are :{count}");
         }    
     }
 }
