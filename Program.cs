@@ -5,41 +5,60 @@ namespace ConsoleApp1
 {
     internal class Program
     {
-        public string name="Not Given";
-        public int age=0;
-        public Program()
+       public class MyException:Exception
         {
-            Console.WriteLine("Default Constructor");
+            public MyException(string message) : base(message)
+            { 
+            }
         }
-        public Program(string name)
+        public static void CheckAge(int age) 
         {
-            this.name = name;
-            Console.WriteLine($"Parametrized Constructor");
+            if (age < 1) 
+            {
+                throw new MyException("!!Age Cannot Under be One!!");
+            }
+            if (age >150)
+            {
+                throw new MyException("!!Age Cannot Above be 150!!");
+            }
         }
-        public Program(string name,int age)
-        {
-            this.name=name;
-            this.age = age; 
-        }
-        ~Program() 
-        {
-            Console.WriteLine("Destructor has Called");
-        }
-        public void Display()
-        {
-            Console.WriteLine($"Name : {name}\nAge: {age}");
-        }
-        public static void Main(string[] args)
-        {
-            Program ps = new Program();
-            Program ps1 = new Program("Gangadhar");
-            Program ps2 = new Program("Gangadhar", 20);
-            ps.Display();
-            ps1.Display();
-            ps2.Display();
-            ps2 = null;
-            GC.Collect();
 
+        public static void Main(string[] args)
+        {   int a = 10;
+            int b = 5;
+            int [] arr  = { 1, 2, 3, 4, 5 };
+            try 
+            {
+                CheckAge(Convert.ToInt32(Console.ReadLine()));
+                Console.WriteLine(a / b);
+                Console.WriteLine(arr[2]);
+            }
+            catch (DivideByZeroException de)
+            {
+                Console.WriteLine(de.Message);
+                Console.WriteLine("Don't Divide by Zero");
+            }
+            catch (IndexOutOfRangeException ie)
+            {
+                Console.WriteLine(ie.Message);
+                Console.WriteLine("Try with index in range");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally 
+            {
+                Console.WriteLine("Finally Block Executed");
+            }
+            try 
+            {
+                throw new Exception("A user Exception with throw keyword");
+            }
+            catch(Exception e) 
+            {
+                Console.WriteLine(e.Message);
+            }
         }    
     }
 }
