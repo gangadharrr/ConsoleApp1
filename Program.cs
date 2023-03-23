@@ -5,23 +5,41 @@ namespace ConsoleApp1
 {
     internal class Program
     {
-
-        public enum Days
+        public string name="Not Given";
+        public int age=0;
+        public Program()
         {
-            sunday,monday,tuesday,wednesday,thursday,friday,saturday
+            Console.WriteLine("Default Constructor");
         }
-        public enum naturalnumbers
-        { 
-            x=1, y=2, z=3,
+        public Program(string name)
+        {
+            this.name = name;
+            Console.WriteLine($"Parametrized Constructor");
+        }
+        public Program(string name,int age)
+        {
+            this.name=name;
+            this.age = age; 
+        }
+        ~Program() 
+        {
+            Console.WriteLine("Destructor has Called");
+        }
+        public void Display()
+        {
+            Console.WriteLine($"Name : {name}\nAge: {age}");
         }
         public static void Main(string[] args)
         {
-            int a=(int) Days.sunday;
-            foreach (int i in Enum.GetValues(typeof(Days)))
-                Console.Write(Enum.GetName(typeof(Days),i)+" ");
-            Console.WriteLine();
-            foreach (int i in Enum.GetValues(typeof(naturalnumbers)))
-                Console.Write(Enum.GetName(typeof(naturalnumbers), i)+" ");
+            Program ps = new Program();
+            Program ps1 = new Program("Gangadhar");
+            Program ps2 = new Program("Gangadhar", 20);
+            ps.Display();
+            ps1.Display();
+            ps2.Display();
+            ps2 = null;
+            GC.Collect();
+
         }    
     }
 }
