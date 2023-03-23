@@ -16,17 +16,13 @@ namespace ConsoleApp1
         {
             Dictionary <int,int> hashtable = new Dictionary<int,int>();
             Console.Write("Enter elements in Single Line with Space: ");
-            List <int> arr= Console.ReadLine().TrimEnd().Split(" ").ToList().Select(x => Convert.ToInt32(x)).ToList();
-            int count = 0;
-            foreach (int i in arr) 
-            {
-                hashtable[i] = (hashtable.TryGetValue(i, out var value) ? value :0)+1;
-            }
-            foreach (KeyValuePair<int, int> item in hashtable)
-            {
-                if(item.Value > 1)count++;
-            }
-            Console.WriteLine($"No. of Duplicate elements in array are :{count}");
+            List <int> arr1= Console.ReadLine().TrimEnd().Split(" ").ToList().Select(x => Convert.ToInt32(x)).ToList();
+            Console.Write("\nEnter elements in Single Line with Space: ");
+            List <int> arr2= Console.ReadLine().TrimEnd().Split(" ").ToList().Select(x => Convert.ToInt32(x)).ToList();
+            arr1=arr1.Concat(arr2).ToList();
+            arr1.Sort();
+            Console.Write($"[{string.Join(",",arr1)}]");
+            
         }    
     }
 }
