@@ -16,9 +16,11 @@ namespace ConsoleApp1
         {
             Console.Write("Enter the string: ");
             string str=Console.ReadLine();
-            str=str.Insert(0, Convert.ToString(str[str.Length - 1]));
-            str = str.Insert(str.Length, Convert.ToString(str[str.Length-1]));
-            Console.WriteLine(str);
+            while(str.Contains("ok"))
+            {
+                str=str.Replace("ok", "");
+            }
+            Console.WriteLine(str.ElementAtOrDefault(0));
         }    
     }
 }
