@@ -5,8 +5,8 @@ using System.Collections;
 using System.ComponentModel;
 using System.Security.Cryptography;
 
-/*Write a C# Sharp program to create a new string with the last char 
- * added at the front and back of a given string of length 1 or more.*/
+/*Write a C# Sharp program to check if a string 'ok' appears in a given string. 
+ * If it appears return a string without 'ok' otherwise return the original string.*/
 namespace ConsoleApp1
 {
     internal class Program
@@ -15,12 +15,13 @@ namespace ConsoleApp1
        public static void Main(string[] args)
         {
             Console.Write("Enter the string: ");
-            string str=Console.ReadLine();
-            while(str.Contains("ok"))
-            {
-                str=str.Replace("ok", "");
+            string[] str=Console.ReadLine().Split("ok");
+            while(string.Join("", str).Contains("ok"))
+            { 
+                string temp = string.Join("", str);
+                str = temp.Split("ok");
             }
-            Console.WriteLine(str.ElementAtOrDefault(0));
+            Console.WriteLine(string.Join("", str));
         }    
     }
 }
