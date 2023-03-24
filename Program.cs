@@ -3,10 +3,8 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Collections;
 using System.ComponentModel;
+using System.Security.Cryptography;
 
-//1) Write a program in C# Sharp to count a total number of duplicate elements in an array.
-//2) Write a program in C# Sharp to merge two arrays of same size sorted in ascending order.
-//3) Write a program in C# Sharp to separate odd and even integers in separate arrays
 namespace ConsoleApp1
 {
     internal class Program
@@ -14,17 +12,31 @@ namespace ConsoleApp1
        
        public static void Main(string[] args)
         {  
-            Console.Write("Enter elements in Single Line with Space: ");
-            List <int> arr= Console.ReadLine().TrimEnd().Split(" ").ToList().Select(x => Convert.ToInt32(x)).ToList();
-            List <int> oddList = new List<int>();
-            List <int> evenList = new List<int>();
-            foreach(var a in arr)
-            {
-                if((a&1)==1) oddList.Add(a);
-                else evenList.Add(a);
+            var myLinkedList=new LinkedList<int>();
+            myLinkedList.AddLast(2);
+            myLinkedList.AddLast(2);
+            myLinkedList.AddLast(2);
+            myLinkedList.AddLast(2);
+           
+            LinkedListNode <int> node1=myLinkedList.Find(2);
+            myLinkedList.AddBefore(node1, 66);
+            LinkedListNode<int> node2 = myLinkedList.FindLast(2);
+            myLinkedList.AddBefore(node2, 66);
+            Console.WriteLine($"{string.Join(" -> ", myLinkedList)}");
+
+            for (LinkedListNode<int> node = myLinkedList.First; node != null;node = node.Next)
+            { 
+                if(node.Value==2)
+                {
+                    myLinkedList.AddBefore(node, 99);
+                }
+                
+
             }
-            Console.WriteLine($"Odd list:[{string.Join(",",oddList)}]");
-            Console.WriteLine($"Even list:[{string.Join(",",evenList)}]");
+
+            Console.WriteLine($"{string.Join(" -> ",myLinkedList)}");
+            
+  
         }    
     }
 }
