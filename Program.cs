@@ -11,31 +11,41 @@ namespace ConsoleApp1
     {
        
        public static void Main(string[] args)
-        {  
-            var myLinkedList=new LinkedList<int>();
-            myLinkedList.AddLast(2);
-            myLinkedList.AddLast(2);
-            myLinkedList.AddLast(2);
-            myLinkedList.AddLast(2);
-           
-            LinkedListNode <int> node1=myLinkedList.Find(2);
-            myLinkedList.AddBefore(node1, 66);
-            LinkedListNode<int> node2 = myLinkedList.FindLast(2);
-            myLinkedList.AddBefore(node2, 66);
-            Console.WriteLine($"{string.Join(" -> ", myLinkedList)}");
+        { 
+            Dictionary <int,string> dict = new Dictionary<int,string>();
+            dict.Add(1, "a");
+            dict.Add(2, "b");
+            dict.Add(3, "c");
+            dict.Add(4, "d");
+            dict.Add(5, "e");
+            dict.Add(6, "f");
+            dict.Add(7, "x");
+            Dictionary <int,int> dict1 = new Dictionary<int,int>();
 
-            for (LinkedListNode<int> node = myLinkedList.First; node != null;node = node.Next)
-            { 
-                if(node.Value==2)
+            Console.WriteLine(dict1.GetValueOrDefault(8));
+            foreach(KeyValuePair<int,string> kvp in dict) 
+            {
+                if(kvp.Value == "a")
                 {
-                    myLinkedList.AddBefore(node, 99);
+                    dict[kvp.Key] = "A";
                 }
-                
-
+            }
+            foreach(var item in dict.OrderBy(x=>x.Value))
+            {
+                Console.WriteLine(item);
             }
 
-            Console.WriteLine($"{string.Join(" -> ",myLinkedList)}");
-            
+            foreach(var item in dict)
+            {
+                if(item.Value == "x") 
+                {
+                    dict.Remove(item.Key);
+                }
+            }
+            foreach(KeyValuePair<int,string> kvp in dict) 
+            {
+                Console.WriteLine($"[{kvp.Key},{kvp.Value}]");
+            }
   
         }    
     }
