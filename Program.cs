@@ -5,8 +5,8 @@ using System.Collections;
 using System.ComponentModel;
 using System.Security.Cryptography;
 
-/*Write a C# Sharp program to exchange the first and last characters 
-    in a given string and return the new string*/
+/*Write a C# Sharp program to create a new string with the last char 
+ * added at the front and back of a given string of length 1 or more.*/
 namespace ConsoleApp1
 {
     internal class Program
@@ -16,16 +16,9 @@ namespace ConsoleApp1
         {
             Console.Write("Enter the string: ");
             string str=Console.ReadLine();
-            char[] ch = str.ToCharArray();
-            char temp = ch[ch.Length-1];
-            ch[str.Length - 1] = ch[0];
-            ch[0] = temp;
-            Convert.ToString(ch);
-            Console.WriteLine(ch);
-
-
-
-
+            str=str.Insert(0, Convert.ToString(str[str.Length - 1]));
+            str = str.Insert(str.Length, Convert.ToString(str[str.Length-1]));
+            Console.WriteLine(str);
         }    
     }
 }
