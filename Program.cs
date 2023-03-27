@@ -8,37 +8,47 @@ using System.Security.Cryptography;
 
 namespace ConsoleApp1
 {
-    abstract public class AbstractClass
+    public interface Iparent
     {
-        public void methodAdd(int a, int b)
-        { a++; b++; }   
-    }
-    abstract public class AbstractClassWithMethod
-    {
-        abstract public void method(int a, int b);
-        public void methodAdd(int a, int b)
+        public void show(int[] ar);
+        public void calculate(int age);
+        public void display(string name)
         {
-            Console.WriteLine(a+b);
+            Console.WriteLine(name);
         }
-    }
-    public class Myclass : AbstractClassWithMethod 
-    {
-         public override void method(int a,int b)
-        { Console.WriteLine(a+b); } 
-        
-    }
-    //public class Myclass:AbstractClass
-    //{
 
-    //}
+    }
+    public class Parent : Iparent 
+    {  
+        public void show(int[] arr)
+        {
+            Console.WriteLine($"[{string.Join(", ",arr)}]");
+        }
+        public void calculate(int age) 
+        {
+            if(age < 18 )
+            {
+                Console.WriteLine("underage");
+            }
+            else 
+            {
+                Console.WriteLine("Eligible");
+            }
+        }
+        
+}
+
     internal class Program
     {
 
         static void Main(string[] args)
         {
-            Myclass mc = new Myclass();
-            mc.method(1, 2);
-            mc.methodAdd(1, 2);
+            Parent mc = new Parent();
+            Iparent p= new Parent();
+            int[] arr = { 1,2,3,4,5};
+            mc.show(arr);
+            mc.calculate(17);
+            p.display("Gangadhar C");
            
         }
     }
