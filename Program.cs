@@ -5,23 +5,23 @@ using System.Collections;
 using System.ComponentModel;
 using System.Security.Cryptography;
 
-/*Write a C# Sharp program to check if a string 'ok' appears in a given string. 
- * If it appears return a string without 'ok' otherwise return the original string.*/
+
+/*What is IEnumerable in C#?
+What is Constructor Chaining in C#?
+Can you use a "this" command within a static method ? Why?
+Name some access modifiers available in C#
+Why does C# not support multiple inheritances?*/
 namespace ConsoleApp1
 {
+ 
     internal class Program
     {
        
        public static void Main(string[] args)
         {
-            Console.Write("Enter the string: ");
-            string[] str=Console.ReadLine().Split("ok");
-            while(string.Join("", str).Contains("ok"))
-            { 
-                string temp = string.Join("", str);
-                str = temp.Split("ok");
-            }
-            Console.WriteLine(string.Join("", str));
+            Class1 obj = new Class1();
+            Class2 obj2 = new Class2();
+            obj.method2();
         }    
     }
 }
