@@ -8,58 +8,91 @@ using System.Security.Cryptography;
 
 namespace ConsoleApp1
 {
-    public class Marks
+
+    sealed class SealedClass
     {
-        public float total_marks;
-        public string grade;
-        public int no_subs;
-        public float percentage;
-        public Marks(float total_marks,int no_subs)
+
+        // Calling Function
+        public int Add(int a, int b)
         {
-            this.total_marks = total_marks;
-            this.no_subs = no_subs;
-        }
-        public void percentagecal()
-        {
-            percentage =total_marks/no_subs;
+            return a + b;
         }
     }
-    public class Student
+    class Printer {
+ 
+    // Display Function for
+    // Dimension printing
+    public virtual void show()
     {
-        string name;
-        int age;
-        string rollno;
-        int dept_id;
-        Marks M;
-        public Student(string name, int age, string rollno, int dept_id,Marks M)
+        Console.WriteLine("display dimension : 6*6");
+    }
+ 
+    // Display Function
+    public virtual void print()
+    {
+        Console.WriteLine("printer printing....\n");
+    }
+}
+ 
+// inheriting class
+    class LaserJet : Printer {
+ 
+        // Sealed Display Function
+        // for Dimension printing
+        sealed override public void show()
         {
-            this.name = name;
-            this.age = age;
-            this.rollno = rollno;
-            this.dept_id = dept_id;
-            this.M = M;
+            Console.WriteLine("display dimension : 12*12");
         }
-        public void Display()
+ 
+        // Function to override
+        // Print() function
+        override public void print()
         {
-            M.percentagecal();
-            Console.WriteLine($"Name: {name},\nAge: {age},\nRollNO: {rollno}\nMarks: {M.total_marks},\nPercentage: {M.percentage}");
+            Console.WriteLine("Laserjet printer printing....\n");
+        }
+    }
+ 
+// Officejet class cannot override show
+// function as it is sealed in LaserJet class.
+    class Officejet : LaserJet {
+ 
+        // can not override show function or else
+        // compiler error : 'Officejet.show()' :
+        // cannot override inherited member
+        // 'LaserJet.show()' because it is sealed.
+        override public void print()
+        {
+            Console.WriteLine("Officejet printer printing....");
         }
     }
     internal class Program
     {
 
+        // Main Method
         static void Main(string[] args)
         {
-            Marks m = new Marks(350, 5);
-            
-            Student s = new Student("Gangadhar",20,"19s115762",2002,m);
-            s.Display();
-            
 
+            // Creating an object of Sealed Class
+            SealedClass slc = new SealedClass();
+
+            // Performing Addition operation
+            int total = slc.Add(6, 4);
+            Console.WriteLine("Total = " + total.ToString());
            
-   
-            
+            Printer p = new Printer();
+            p.show();
+            p.print();
 
+            Printer ls = new LaserJet();
+            ls.show();
+            ls.print();
+
+            Printer of = new Officejet();
+            of.show();
+            of.print();
+            
         }
     }
+
+    
 }
