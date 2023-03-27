@@ -6,22 +6,60 @@ using System.ComponentModel;
 using System.Security.Cryptography;
 
 
-/*What is IEnumerable in C#?
-What is Constructor Chaining in C#?
-Can you use a "this" command within a static method ? Why?
-Name some access modifiers available in C#
-Why does C# not support multiple inheritances?*/
 namespace ConsoleApp1
 {
- 
+
+
+    public class Car
+    {
+        internal void MaxSpeed(int speed)
+        {
+            int MaxSpeed = speed;
+            Console.WriteLine(MaxSpeed);
+
+        }
+        public void ABS()
+        {
+            Console.WriteLine("ABS is applied");
+        }
+    }
+
+    public class Volvo : Car
+    {
+        public void Test()
+        {
+            Console.WriteLine("In Volvo car");
+        }
+        public void ABS()
+        {
+            Console.WriteLine("ADvanced Volvo aBS");
+        }
+
+
+    }
+    public class VolvoSports : Volvo
+    {
+        public void Sportmethod()
+        {
+            Console.WriteLine("This is sport mode");
+        }
+    }
+
+
     internal class Program
     {
-       
-       public static void Main(string[] args)
+
+        static void Main(string[] args)
         {
-            Class1 obj = new Class1();
-            Class2 obj2 = new Class2();
-            obj.method2();
-        }    
+
+
+            var Volvo = new VolvoSports();
+            Volvo.MaxSpeed(40);
+            Volvo.ABS();
+            Volvo.Test();
+            Volvo.Sportmethod();
+
+
+        }
     }
 }
