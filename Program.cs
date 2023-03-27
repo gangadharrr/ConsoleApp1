@@ -10,55 +10,42 @@ namespace ConsoleApp1
 {
 
 
-    public class Car
-    {
-        internal void MaxSpeed(int speed)
-        {
-            int MaxSpeed = speed;
-            Console.WriteLine(MaxSpeed);
-
-        }
-        public void ABS()
-        {
-            Console.WriteLine("ABS is applied");
-        }
-    }
-
-    public class Volvo : Car
-    {
-        public void Test()
-        {
-            Console.WriteLine("In Volvo car");
-        }
-        public void ABS()
-        {
-            Console.WriteLine("ADvanced Volvo aBS");
-        }
-
-
-    }
-    public class VolvoSports : Volvo
-    {
-        public void Sportmethod()
-        {
-            Console.WriteLine("This is sport mode");
-        }
-    }
-
-
     internal class Program
     {
-
+        
+        private void Print(String args)
+        { 
+            Console.WriteLine(args);
+        }
+        private void Print(int[] args)
+        { 
+            Console.WriteLine($"[{string.Join(", ",args)}]");
+        }
+        private void Print(String[] args)
+        {
+            Console.WriteLine($"[{string.Join(",\n", args)}]");
+        }
+        private void Print(string fname,string lname)
+        {
+            Console.WriteLine( $"{{\n\sFirstname: {fname}\n\sLastname: {lname}\n}}");
+        }
+       
         static void Main(string[] args)
         {
+            Program ps = new Program();
+
+            int[] arr = {1,2,3,4,5};
+            string[] arr1 = { "monday", "tuesday" ,"wednesday","thursday"};
 
 
-            var Volvo = new VolvoSports();
-            Volvo.MaxSpeed(40);
-            Volvo.ABS();
-            Volvo.Test();
-            Volvo.Sportmethod();
+           
 
+            ps.Print("Hello");
+            ps.Print(arr);
+            ps.Print(arr1);
+            ps.Print("Gangadhar", "C");
+   
+            
 
         }
     }
