@@ -31,13 +31,31 @@ namespace ConsoleApp1
             cls.PrivateMethod();
 
         }
+        protected class ProtectedClass
+        {
+            public ProtectedClass() 
+            {
+                Console.WriteLine("Protected Class");
+            }
 
+        }  
+        protected internal class ProtectedInternalClass
+        {
+            public ProtectedInternalClass() 
+            {
+                Console.WriteLine("Protected Internal Class");
+            }
+
+        }
     }
+    
     public class Class2:Class1
     {
         public Class2(){
         //PrivateClass obj = new PrivateClass(); //error
             PrivateProtectedClass privateProtectedClass = new PrivateProtectedClass();
+            ProtectedClass pc=new ProtectedClass();
+            
         }
     }
 }
