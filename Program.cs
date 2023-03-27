@@ -4,52 +4,83 @@ using System.Collections.Generic;
 using System.Collections;
 using System.ComponentModel;
 using System.Security.Cryptography;
-
+using System.IO;
+using System.Text;
 
 namespace ConsoleApp1
 {
-    public interface Iparent
-    {
-        public void show(int[] ar);
-        public void calculate(int age);
-        public void display(string name)
-        {
-            Console.WriteLine(name);
-        }
-
-    }
-    public class Parent : Iparent 
-    {  
-        public void show(int[] arr)
-        {
-            Console.WriteLine($"[{string.Join(", ",arr)}]");
-        }
-        public void calculate(int age) 
-        {
-            if(age < 18 )
-            {
-                Console.WriteLine("underage");
-            }
-            else 
-            {
-                Console.WriteLine("Eligible");
-            }
-        }
-        
-}
-
+    
     internal class Program
     {
 
+        static void FileObejct()
+        {
+            File.WriteAllText("D:\\FileHandling.txt", "hello from WriteAll\n");
+            File.AppendAllText("D:\\FileHandling.txt", "hello from AppendAll\n");
+        }
+        static void FileStreamerObject()
+        {
+            FileStream file = new FileStream("D:\\FileHandling.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+            file.Write(Encoding.UTF8.GetBytes("hello from C# "));
+            file.WriteByte(77);
+            file.Close();
+        }
+        static void StreamWriterObject()
+        {
+            FileStream file1 = new FileStream("D:\\FileHandling.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            StreamWriter stream = new StreamWriter(file1);
+            stream.WriteLine("Hello from Stream Writer");
+            stream.Close();
+            file1.Close();
+        }
+        static void StreamReaderObject()
+        {
+            FileStream file2 = new FileStream("D:\\FileHandling.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            StreamReader streamrd = new StreamReader(file2);
+            var str = streamrd.ReadLine();
+            Console.WriteLine(str);
+            streamrd.Close();
+            file2.Close();
+        }
+        static void TextWriterObject()
+        {
+
+            TextWriter textWriter = File.CreateText("D:\\FileHandling.txt");
+            textWriter.WriteLine("hello from textwriter");
+            textWriter.WriteLine();
+            textWriter.Close();
+        }
+        static void TextReaderObject()
+        {
+            TextReader textReader = File.OpenText("D:\\FileHandling.txt");
+            var str1 = textReader.ReadToEnd();
+            Console.WriteLine(str1);
+        }
+        static void FileInfoObject()
+        {
+            var path = "D:\\textfile.txt";
+            FileInfo fi = new(path);
+            fi.Create();
+        }
+        static void DirectoryInfoObject()
+        {
+            var path = "D:\\has";
+            DirectoryInfo di = new(path);
+            //di.Create();
+            di.Delete();
+        }
         static void Main(string[] args)
         {
-            Parent mc = new Parent();
-            Iparent p= new Parent();
-            int[] arr = { 1,2,3,4,5};
-            mc.show(arr);
-            mc.calculate(17);
-            p.display("Gangadhar C");
-           
+
+            FileInfoObject();
+            DirectoryInfoObject();
+
+
+
+
+
+
         }
     }
 
