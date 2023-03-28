@@ -6,74 +6,81 @@ using System.ComponentModel;
 using System.Security.Cryptography;
 using ConsoleApp1;
 using System.Xml.Serialization;
+using System.Runtime.CompilerServices;
+using System.Reflection;
 
 namespace ConsoleApp1
 {
-    delegate int DelegateAdd(int a, int b);
-    delegate void Print(string s);
-   public class MyClass
+   public class Student
     {
-        //public 
+        public string Name;
+        public string Department;
+        public int Age;
+        public int Id;
+        
+        public Student(string Name,string Department,int Age,int Id)
+        { 
+            this.Name = Name;
+            this.Department = Department;
+            this.Age = Age;
+            this.Id = Id;
+        }
     }
     internal class Program
-    { 
-        
-        static int Add(int a,int b)
-        { 
-            //Console.WriteLine(a + b);
-            return a + b; }
-        static int Sub(int a,int b) { 
-            //Console.WriteLine(a - b);
+    {
+        public int[] arr = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+       public int Counting(int[] arr,Func<int,bool> lambda)
+        {
+            int count = 0;
+            foreach(int a in arr) 
+            {
+                if(lambda(a))
+                count++;
+            }
 
-            return a-b; 
+            return count;
         }
         public static void Main(string[] args)
         {
-
-            ////Anonymous Method
-            //DelegateAdd Dsm=new DelegateAdd(delegate(int a,int b) { return  a + b; });
-            //Console.WriteLine(Dsm(2,4));
-            //Print print = delegate (string s) { Console.WriteLine(s); };
-            //print("Hello");
-
-            ////Lambda Epressions
-            //DelegateAdd add = (num1, num2) => num1 + num2;
-            //Console.WriteLine(add(2,30));
-            //Print p = (num2) => Console.WriteLine(num2);
-            //p("Hi");
-            //var mul = (int num1, int num2) => num1 * num2;
-            //Console.WriteLine(mul(2,30)); 
-            //mul+= (int num1, int num2) => num1 + num2;
-            //foreach(Delegate a in mul.GetInvocationList()) 
-            //{
-            //    Console.WriteLine(a.DynamicInvoke(2,3));
-            //}
-
-            List<int> nums = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8 };
-
-            var square = (int n) => { return n * n; };
-
-            foreach (int num in nums)
-            {
-                Console.WriteLine(square(num));
-            }
-            List<int> nums1 = nums.FindAll(n=>(n&1)==0);
-            nums1.ForEach(x => Console.Write(x+" "));
+            List<Student> students = new List<Student>()
+           {
+               new Student("Gangadhar","CSE",20,39110202),
+               new Student("Rahul","CSE",22,39110222),
+               new Student("Vivek","IT",21,39130292),
+               new Student("Uday","EEE",25,39150212),
+               new Student("Jyothi","ECE",23,39140220),
+               new Student("Akhil","MECH",27,39130501)
+           };
+            students.Sort((x,y) => x.Age.CompareTo(y.Age));
+            students.ForEach(x => Console.WriteLine($"[{x.Name},{x.Age},{x.Department},{x.Id}]"));
             Console.WriteLine();
-            List<string> strings = new List<string>() { "hi", "Hello", "xyz", "abc" };
-            Console.WriteLine($"[{string.Join(", ",strings.OrderBy(x=>x).ToList())}]");
-            Dictionary <int, int[]> dict=new Dictionary<int, int[]>()
+
+            students.Sort((x,y) => x.Id-y.Id);
+            students.ForEach(x => Console.WriteLine($"[{x.Name},{x.Age},{x.Department},{x.Id}]"));
+            Console.WriteLine();
+
+            foreach (Student student in students.FindAll(x => x.Age < 25 && x.Department.Equals("CSE"))) 
+                Console.WriteLine($"[{student.Name},{student.Age},{student.Department},{student.Id}]");
+            if(students.All(x=>x.Age<25))
             {
-                { 99,new int[]{3,2} },
-                {1,new int[]{2,4} },
-                {45,new int[]{3,5 } },
-                { 20,new int[]{2,3 } }
-            };
-            foreach (var k in dict.OrderBy(x => -x.Value[1]).OrderBy(x => x.Value[0]))
-            {
-                Console.WriteLine($"[{string.Join(",",k.Value)}]");
+                Console.WriteLine("All students are under 25");
             }
-            Console.WriteLine(dict[99][1].CompareTo(dict[99][0]));
+            else
+            {
+                Console.WriteLine("All students are not under 25");
+            }
+            var res= (int a, int b) => 
+            {
+                int total = a + b;
+                return total; 
+            };
+            Console.WriteLine(res(2,3));
+            Console.WriteLine();
+            Program ps = new Program();
+            Console.WriteLine(ps.Counting(ps.arr,(int x) => (x & 1) == 0));
+            
+
+
         }
     }
 }
