@@ -10,8 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Test.cs = Test.cs
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chocolate Machine", "..\Chocolate Machine\Chocolate Machine.csproj", "{7A57DB9A-0D37-4A6B-AD95-FC5E1C48FFD4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,17 +20,12 @@ Global
 		{4CA4BD83-0A40-4C7C-995E-541F80021983}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CA4BD83-0A40-4C7C-995E-541F80021983}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CA4BD83-0A40-4C7C-995E-541F80021983}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A57DB9A-0D37-4A6B-AD95-FC5E1C48FFD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A57DB9A-0D37-4A6B-AD95-FC5E1C48FFD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A57DB9A-0D37-4A6B-AD95-FC5E1C48FFD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A57DB9A-0D37-4A6B-AD95-FC5E1C48FFD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4CA4BD83-0A40-4C7C-995E-541F80021983} = {249CEED7-3808-4481-81B1-653293F32C30}
-		{7A57DB9A-0D37-4A6B-AD95-FC5E1C48FFD4} = {249CEED7-3808-4481-81B1-653293F32C30}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7464A2D7-BD2D-40EB-ADAD-D0ED1072D438}
