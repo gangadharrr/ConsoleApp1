@@ -32,6 +32,7 @@ namespace ConsoleApp1
             //MyClass.DelegateAdd Dsum = Add;
             DelegateAdd Dsub = Sub;
             Dsub += Add;
+            Dsub -= Sub;//removing the method
             //Console.WriteLine(Dsum(2,4));
             //Console.WriteLine(Dsum.Invoke(5,2));
             //Console.WriteLine(Dsub.DynamicInvoke(2, 4));
