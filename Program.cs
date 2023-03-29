@@ -1,51 +1,56 @@
 ﻿using System;
-using System.Drawing;
 using System.Collections.Generic;
-using System.Collections;
-using System.ComponentModel;
-using System.Security.Cryptography;
-using ConsoleApp1;
-using System.Xml.Serialization;
-using System.Runtime.CompilerServices;
-using System.Reflection;
-using Microsoft.VisualBasic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace Demo
 {
-   
     internal class Program
     {
-        public static async void FirstMethod()
+        async Task<int> a()
         {
+            int number = 0;
+            await Task.Run(() =>
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    Console.WriteLine("Executing method(a)");
+                    number++;
+                }
+            });
 
-            Console.WriteLine("First Method Started");
-            await Task.Delay(7000);
-            Console.WriteLine("First Method Ending");
+            Console.WriteLine("In a");
+             await Task.Delay(3000);
+            Console.WriteLine("End a");
+            return number;
         }
-        public static async void SecondMethod()
+
+        async Task b()
         {
-            Console.WriteLine("Second Method Started");
+            Console.WriteLine("In b");
+            // await Task.Delay(5000);
+            Console.WriteLine("End b");
+        }
+
+        async Task c(int number)
+        {
+            Console.WriteLine("Number from method(A): " + number);
+            Console.WriteLine("In c");
             await Task.Delay(5000);
-            Console.WriteLine("Second Method Ending");
-        }
-        public static async void ThirdMethod()
-        {
-            Console.WriteLine("Third Method Started");
-            await Task.Delay(3000);
-            Console.WriteLine("Third Method Ending");
-        
+            Console.WriteLine("End c");
         }
 
-        public static void Main(string[] args)
+
+        static async Task Main(string[] args)
         {
-            System.Diagnostics.Stopwatch calculation =new System.Diagnostics.Stopwatch();
-            calculation.Start();
-            FirstMethod();
-            SecondMethod();
-            ThirdMethod();
-            calculation.Stop();
-            Console.WriteLine(calculation.ElapsedMilliseconds);
-            Console.ReadLine();
+            Program obj = new Program();
+            var task1 = obj.a();
+            var task2 = obj.b();
+            int number = await task1;
+            var task3 = obj.c(number);
+            // Task.WaitAll(task1,task2);
+            Console.ReadKey();
 
         }
     }
