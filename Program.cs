@@ -17,35 +17,34 @@ namespace ConsoleApp1
     {
         public static async void FirstMethod()
         {
+
             Console.WriteLine("First Method Started");
-            Console.WriteLine("Message From Method 1");
-            string str=await SecondMethod();
-            Console.WriteLine( str);
+            await Task.Delay(7000);
             Console.WriteLine("First Method Ending");
         }
-        public static async Task<string> SecondMethod()
+        public static async void SecondMethod()
         {
             Console.WriteLine("Second Method Started");
-            await Task.Delay(7000);
-            string msg = "Message from Method 2";
+            await Task.Delay(5000);
             Console.WriteLine("Second Method Ending");
-            return msg;
         }
-        public static void ThirdMethod()
+        public static async void ThirdMethod()
         {
             Console.WriteLine("Third Method Started");
-     
+            await Task.Delay(3000);
             Console.WriteLine("Third Method Ending");
         
         }
 
         public static void Main(string[] args)
         {
-
+            System.Diagnostics.Stopwatch calculation =new System.Diagnostics.Stopwatch();
+            calculation.Start();
             FirstMethod();
-            Console.WriteLine("third method calling");
+            SecondMethod();
             ThirdMethod();
-            
+            calculation.Stop();
+            Console.WriteLine(calculation.ElapsedMilliseconds);
             Console.ReadLine();
 
         }
