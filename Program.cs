@@ -11,76 +11,87 @@ using System.Reflection;
 using Microsoft.VisualBasic;
 using System.Data;
 using System.Security.Principal;
+using System.Transactions;
+using System.Net.Sockets;
+using System.Runtime.ConstrainedExecution;
+using System.Xml.Linq;
 
 namespace ConsoleApp1
 {
+  /*  Abstraction:
 
-    /*Polymorphism
+    A company XYZ wants to develop an app which can predict the
+    lucky number for a person.
+    The name of the app is LuckyNumberPredictor.
+    This app consists of a method - upon calling the person gets to know his/her lucky number.
+     This method calls another class —> NumberPredictor - which have the formula for
+     predicting the lucky number of that person.This approach is done so that no-one else gets
+    to know the secret formula for this prediction.
 
-    A friend of yours wants to create a special calculator.
-    He only wants two operations to be handled by that calculator
-    i.e. : addition and subtraction.
-    The calculator can only accept either 2 numbers or 3 numbers.
-
-    There are two functionalities for this calculator -
-    1. Normal -> in this role - the calculator works normally
-     - where upon adding the numbers are added,
-    while upon subtracting the numbers are subtracted.
-
-    2. Opposite -> in this role - the calculator works opposite
-    to the normal role - where upon adding the numbers are subtracted,
-     while upon subtracting the numbers are added.
-    That friend have approached you for the help, in creating
-     such a calculator.*/
-    internal class Calculator
+    LuckyNumberPredictor accepts only one argument i.e: date of birth of the person. The formula
+    for predicting the lucky number is quite simple -> a person’s lucky number is calculated by rounding off the date of birth to the nearest Fibonacci number.
+    Another thought that XYZ company is  having - is to predict unlucky number as well 
+    - but for this — for now, they don’t have any formula ready.But they want to have this idea to 
+    be stored in - in their NumberPredictor class. The company is asking you to develop this system.*/
+   
+    abstract class NumberPredictor 
     {
-        public bool Role = true;
-        public Calculator()
-        { }
-        public Calculator(bool Role)
+        private protected int SecrectLuckyNumberCalculator(int DateOfBirth)
         {
-            this.Role = Role;
+            return LuckyNumberFormula(DateOfBirth);
         }
-        public int Addition(int a, int b)
+        private int LuckyNumberFormula(int N)
         {
-            return Role ? a + b : a - b;
+            int n1 = 0, n2 = 1; 
+            while(n1+n2 < N)
+            {
+                int temp = n1 + n2;
+                n1=n2; 
+                n2=temp;
+            }
+            return n1+n2;
         }
-        public int Addition(int a, int b, int c)
+        private protected int SecrectUnuckyNumberCalculator(int DateOfBirth)
         {
-            return Role ? a + b + c : a - b - c;
+            return 0;
         }
-        public int Subtraction(int a, int b)
-        {
-            return Role ? a - b : a + b;
+        private int UnuckyNumberFormula(int N)
+        { 
+            return 0;
         }
-        public int Subtraction(int a, int b, int c)
-        {
-            return Role ? a - b - c : a + b + c;
-        }
+
     }
+    internal class LuckyNumberPredictor:NumberPredictor
+    {
+        public int LuckyNumberCalculator(string DateOfBirth)
+        { 
+            DateOfBirth=DateOfBirth.Trim().Replace("-"," ").Replace("/"," ");
+            return base.SecrectLuckyNumberCalculator(DateOfBirth.Split().Select(x => Convert.ToInt32(x)).ToList()[0]); 
+        }
+
+    }
+
     internal class Program
     {
+        internal static void FibonacciNumber(int N)
+        {
+            int n1 = 0, n2 = 1;
+            while (n1 + n2 < N)
+            {
+                int temp = n1 + n2;
+                Console.Write(temp+" ");
+                n1 = n2;
+                n2 = temp;
+            }
+           
+        }
         public static void Main(string[] args)
         {
-            Calculator normalCalculatorObject = new Calculator(true);
-            Calculator oppositeCalculatorObject = new Calculator(false);
-
-            Console.WriteLine("Normal Calculation :-\n");
-
-            Console.WriteLine($"Addition with 2 args: {normalCalculatorObject.Addition(2, 3)}");
-            Console.WriteLine($"Addition with 3 args: {normalCalculatorObject.Addition(1, 2, 3)}");
-
-            Console.WriteLine($"Subtraction with 2 args: {normalCalculatorObject.Subtraction(2, 3)}");
-            Console.WriteLine($"Subtraction with 3 args: {normalCalculatorObject.Subtraction(2, 3, 4)}\n");
-            
-            Console.WriteLine("Opposite Calculation :-\n");
-
-            Console.WriteLine($"Addition with 2 args: {oppositeCalculatorObject.Addition(2, 3)}");
-            Console.WriteLine($"Addition with 3 args: {oppositeCalculatorObject.Addition(1, 2, 3)}");
-
-            Console.WriteLine($"Subtraction with 2 args: {oppositeCalculatorObject.Subtraction(2, 3)}");
-            Console.WriteLine($"Subtraction with 3 args: {oppositeCalculatorObject.Subtraction(2, 3, 4)}");
-
+            LuckyNumberPredictor lnp = new LuckyNumberPredictor();
+            Console.Write("Enter the Date of Birth (dd/mm/yyyy): ");
+            int LuckyNumber = lnp.LuckyNumberCalculator(Console.ReadLine().ToString());
+            Console.WriteLine($"Your Lucky Number is: {LuckyNumber}");
+           // FibonacciNumber(100);
         }
     }
 }
