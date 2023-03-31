@@ -19,64 +19,69 @@ using System.Security.AccessControl;
 
 namespace ConsoleApp1
 {
-    /*  Create a C# program to manage a photo book using OOPs.
+    /*  Working 9 to 5
+    Write a function that calculates overtime and pay associated with overtime.
 
-    To start, create a class called PhotoBook.  It must also have a public method GetNumberPages that will return the number of photo book pages.
+    Working 9 to 5: regular hours
+    After 5pm is overtime
+    Your function gets an array with 4 values:
 
-    The default constructor will create an album with 16 pages. There will be an additional constructor, with which we can specify the number of pages we want in the album.
+    Start of working day, in decimal format, (24-hour day notation)
+    End of working day. (Same format)
+    Hourly rate
+    Overtime multiplier
+    Your function should spit out:
 
-    There is also a AddPhotoBook class whose constructor will create an album with 64 pages.
+    $ + earned that day (rounded to the nearest hundreth)
+    Examples
+    OverTime([9, 17, 30, 1.5]) ➞ "$240.00"
 
-    Finally create a PhotoBookTest class to perform the following actions:
+    OverTime([16, 18, 30, 1.8]) ➞ "$84.00"
 
-    Create a default photo book and show the number of pages
-    Create a photo book with 32 pages and show the number of pages
-    Create a large photo book and show the number of pages*/
+    OverTime([13.25, 15, 30, 1.5]) ➞ "$52.50"
+    2nd example explained:
 
-    
-    public class PhotoBook
+    From 16 to 17 is regular, so 1 * 30 = 30
+    From 17 to 18 is overtime, so 1 * 30 * 1.8 = 54
+    30 + 54 = $84.00*/
+
+    public struct Details
     {
-        private protected int pages;
-        public PhotoBook()
-        {
-            this.pages = 16;
-        }
-        public PhotoBook(int pages)
-        {
-            this.pages = pages;
-        }
-        public int GetNumberPages()
-        { 
-            return pages;
-        }
-    }
-    public class AddPhotoBook : PhotoBook
-    {
-        /*public AddPhotoBook() : base(64)*/
-        public AddPhotoBook()
-        {
-            this.pages = 64;
-        }
-    }
-    public class PhotoBookTest
-    {
-        public PhotoBookTest() { 
-            PhotoBook DefaultBook = new PhotoBook();
-            Console.WriteLine($"Default Book Pages: {DefaultBook.GetNumberPages()}");
-            PhotoBook Book_32 = new PhotoBook(32);
-            Console.WriteLine($"Custom Book Pages: {Book_32.GetNumberPages()}");
-            AddPhotoBook Book_64 = new AddPhotoBook();
-            Console.WriteLine($"Large Book Pages: {Book_64.GetNumberPages()}");
 
-        }
-
+        public double StartTime;
+        public double EndTime;
+        public int HourlyRate;
+        public double OvertimeMultiplier;
     }
     public class Program
     {
-      
+        public double OverTime(Details details)
+        {
+            double NormalPay=0.0,AdditionalPay=0.0;
+            if(details.EndTime > 17)
+            {
+                double NormalDifferenceHours = Math.Abs(details.StartTime - 17.0);
+                double OverTimelDifferenceHours = Math.Abs(17.0 - details.EndTime);
+                NormalPay = NormalDifferenceHours * details.HourlyRate;
+                AdditionalPay = OverTimelDifferenceHours * details.HourlyRate * details.OvertimeMultiplier;
+            }
+            else
+            {
+                double NormalDifferenceHours = Math.Abs(details.StartTime - details.EndTime);
+                NormalPay = NormalDifferenceHours * details.HourlyRate;
+            }
+            return NormalPay+Math.Round(AdditionalPay);
+        }
         public static void Main(string[] args)
         {
-           PhotoBookTest test= new PhotoBookTest();
+
+            Program SalaryCalculator = new Program();
+            Details details = new Details();
+            details.StartTime = 9;
+            details.EndTime = 17;
+            details.HourlyRate = 30;
+            details.OvertimeMultiplier = 1.5;
+            Console.WriteLine(SalaryCalculator.OverTime(details));
         }
     }
 }
