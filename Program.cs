@@ -44,7 +44,7 @@ namespace ConsoleApp1
     From 16 to 17 is regular, so 1 * 30 = 30
     From 17 to 18 is overtime, so 1 * 30 * 1.8 = 54
     30 + 54 = $84.00*/
-
+    
     public struct Details
     {
 
