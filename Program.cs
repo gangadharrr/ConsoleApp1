@@ -15,83 +15,129 @@ using System.Transactions;
 using System.Net.Sockets;
 using System.Runtime.ConstrainedExecution;
 using System.Xml.Linq;
+using System.Security.AccessControl;
 
 namespace ConsoleApp1
 {
-  /*  Abstraction:
+    /*  An event is organized and the following has to happen. 
 
-    A company XYZ wants to develop an app which can predict the
-    lucky number for a person.
-    The name of the app is LuckyNumberPredictor.
-    This app consists of a method - upon calling the person gets to know his/her lucky number.
-     This method calls another class —> NumberPredictor - which have the formula for
-     predicting the lucky number of that person.This approach is done so that no-one else gets
-    to know the secret formula for this prediction.
 
-    LuckyNumberPredictor accepts only one argument i.e: date of birth of the person. The formula
-    for predicting the lucky number is quite simple -> a person’s lucky number is calculated by rounding off the date of birth to the nearest Fibonacci number.
-    Another thought that XYZ company is  having - is to predict unlucky number as well 
-    - but for this — for now, they don’t have any formula ready.But they want to have this idea to 
-    be stored in - in their NumberPredictor class. The company is asking you to develop this system.*/
-   
-    abstract class NumberPredictor 
-    {
-        private protected int SecrectLuckyNumberCalculator(int DateOfBirth)
-        {
-            return LuckyNumberFormula(DateOfBirth);
-        }
-        private int LuckyNumberFormula(int N)
-        {
-            int n1 = 0, n2 = 1; 
-            while(n1+n2 < N)
-            {
-                int temp = n1 + n2;
-                n1=n2; 
-                n2=temp;
-            }
-            return n1+n2;
-        }
-        private protected int SecrectUnuckyNumberCalculator(int DateOfBirth)
-        {
-            return 0;
-        }
-        private int UnuckyNumberFormula(int N)
-        { 
-            return 0;
-        }
+      The chief guest needs to be picked up from the airport. 
+      The stage has to be decorated. 
+      The catering team needs to start preparing food
+      The transport team needs to drop the food raw materials to the venue before the cooking needs to start. 
+      The chief guest's speech needs to be reviewed by the PA
+      The venue needs to be checked for security features like bomb threat, etc
+      Prize distribution is set to happen at the end of the event so all the prizes that need to be presented should be brought to the venue. 
+      The chief guest needs to give the speech. 
+      Prizes need to be distributed. 
+      Food has to be provided to all participants. 
 
-    }
-    internal class LuckyNumberPredictor:NumberPredictor
-    {
-        public int LuckyNumberCalculator(string DateOfBirth)
-        { 
-            DateOfBirth=DateOfBirth.Trim().Replace("-"," ").Replace("/"," ");
-            return base.SecrectLuckyNumberCalculator(DateOfBirth.Split().Select(x => Convert.ToInt32(x)).ToList()[0]); 
-        }
+      Please write a C# program to make use of the Async Programming concepts and write the program so that all 
+        of the above happen in a correct order.*/
 
-    }
+
 
     internal class Program
     {
-        internal static void FibonacciNumber(int N)
+        public static async void PickUp()
         {
-            int n1 = 0, n2 = 1;
-            while (n1 + n2 < N)
-            {
-                int temp = n1 + n2;
-                Console.Write(temp+" ");
-                n1 = n2;
-                n2 = temp;
-            }
-           
+            Console.WriteLine("***********************************");
+            Console.WriteLine("Cheif Guest has been PickedUp from Airport");
+            await Task.Delay(10000);
+            Console.WriteLine("Cheif Guest has Arrived At event");
+            Console.WriteLine("-----------------------------------");
+            SpeechDelivery();
+        }
+        public static async void Decoration()
+        {
+            Console.WriteLine("***********************************");
+            Console.WriteLine("Decoration has started at event");
+            await Task.Delay(4000);
+            SecurityCheck();
+            Console.WriteLine("Decoration has complete");
+            Console.WriteLine("-----------------------------------");
+
+        }
+        public static async Task<string> FoodTransport()
+        {
+            Console.WriteLine("***********************************");
+            Console.WriteLine("Raw Materials has Picked at Local Store");
+            string str = "Raw Materials Acquried Food Preparation Inprogress";
+            await Task.Delay(7000);
+            Console.WriteLine("Raw Material has Arrived at event");
+            Console.WriteLine("-----------------------------------");
+            return str;
+        }
+        public static async void FoodPreparation()
+        {
+            Console.WriteLine("***********************************");
+            Console.WriteLine("Food Preparation started at event");
+            string str =await FoodTransport();
+            Console.WriteLine(str);
+            await Task.Delay(10000);
+            Console.WriteLine("Food Preparation Completed at event");
+            Console.WriteLine("-----------------------------------");
+
+        }
+        public static async Task<string> SpeechReview() 
+        {
+            Console.WriteLine("***********************************");
+            Console.WriteLine("Speech Review Has Started By PA");
+            await Task.Delay(2000);
+            string str = "Speech has been review";
+            Console.WriteLine("Speech Review Has Completd By PA");
+            Console.WriteLine("-----------------------------------");
+            return str;
+
+        }
+        public static async void SecurityCheck()
+        {
+            Console.WriteLine("***********************************");
+            Console.WriteLine("Security Check Has Started At Event");
+            await Task.Delay(4000);
+            Console.WriteLine("Security Check Has Completed At Event");
+            Console.WriteLine("-----------------------------------");
+
+        }
+        public static async void PrizeDistribution()
+        {
+            Console.WriteLine("***********************************");
+            Console.WriteLine("Prize Distribution Has Started At Event");
+            await Task.Delay(2000);
+            Lunch();
+            await Task.Delay(5000);
+            Console.WriteLine("Prize Distribution Has Completed At Event");
+            Console.WriteLine("-----------------------------------");
+
+        }
+        public static async void SpeechDelivery()
+        {
+            string str = await SpeechReview();
+            Console.WriteLine("***********************************");
+            Console.WriteLine("Speech by Chief Guest Has Started");
+            Console.WriteLine(str);
+            await Task.Delay(5000);
+            Console.WriteLine("Speech by Chief Guest Has Ended");
+            Console.WriteLine("-----------------------------------");
+            PrizeDistribution();
+            
+        }
+        public static async void Lunch() 
+        {
+            Console.WriteLine("***********************************");
+            Console.WriteLine("Lunch Has Started At Event");
+            await Task.Delay(7000);
+            Console.WriteLine("Lunch Distribution Has Completed At Event");
+            Console.WriteLine("-----------------------------------");
         }
         public static void Main(string[] args)
         {
-            LuckyNumberPredictor lnp = new LuckyNumberPredictor();
-            Console.Write("Enter the Date of Birth (dd/mm/yyyy): ");
-            int LuckyNumber = lnp.LuckyNumberCalculator(Console.ReadLine().ToString());
-            Console.WriteLine($"Your Lucky Number is: {LuckyNumber}");
-           // FibonacciNumber(100);
+            Decoration();
+            PickUp();
+            FoodPreparation();
+            Console.ReadLine();
+
         }
     }
 }
