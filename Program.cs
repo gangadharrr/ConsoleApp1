@@ -43,31 +43,42 @@ namespace ConsoleApp1
         public static void Main(string[] args)
         {
             string connetionString = @"Data Source=5CG9410FJD;Initial Catalog=Practice Database;Integrated Security=True;Encrypt=False;";
-            SqlConnection conn = new SqlConnection(connetionString);
-            conn.Open();
+            using (SqlConnection conn = new SqlConnection(connetionString))
+            { 
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "display_details";
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while(reader.Read())
+                    {
+                        for(int i=0;i<reader.FieldCount;i++) 
+                        {
+                            Console.Write(reader[i].ToString().Trim()+ " ");
+                        }
+                        Console.WriteLine();
+                    }
+                    reader.Close();
+                    Console.WriteLine();    
+                    cmd.CommandText = "sortby_column";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@table_name", "employee"));
+                    cmd.Parameters.Add(new SqlParameter("@column_name", "salary"));
+                    cmd.Parameters.Add(new SqlParameter("@sortby", "desc"));
+                    reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            Console.Write(reader[i].ToString().Trim() + " ");
+                        }
+                        Console.WriteLine();
+                    }
+                }
+            }
             
-            SqlCommand command = conn.CreateCommand();
-
-            try
-            {
-             
-                command.CommandText = $"Delete from student where name is NULL";
-                SqlDataReader reader = command.ExecuteReader();
-                Console.WriteLine("Deleted Successfully");
-              
-            }
-            catch(SqlException ex)
-            { Console.WriteLine(ex.Message); }
-            catch (FormatException ex) 
-            {
-                Console.WriteLine(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            conn.Close();
 
         }
     }
