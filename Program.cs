@@ -21,65 +21,115 @@ using System.Text;
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
 using System.Reflection.PortableExecutable;
+using static Azure.Core.HttpHeader;
+using System.Reflection.Metadata;
 
 namespace ConsoleApp1
 {
+    /*In Nico Cipher, encoding is done by creating a numeric key and assigning each letter position of the message with the provided key.
+
+    Create a function that takes two arguments, key and message, and returns the encoded message.
+
+    There are some variations on the rules of encipherment.One version of the cipher rules are outlined below:
+
+    message = "mubashirhassan"
+    key = "crazy"
+
+    nicoCipher(message, key) ➞ "bmusarhiahass n"
+    Step 1: Assign numbers to sorted letters from the key:
+
+    "crazy" = 23154
+    Step 2: Assign numbers to the letters of the given message:
+
+    2 3 1 5 4
+    ---------
+    m u b a s
+    h i r h a
+    s s a n
+    Step 3: Sort columns as per assigned numbers:
+
+    1 2 3 4 5
+    ---------
+    eMessage = "bmusarhiahass n"
+    Examples
+    NicoCipher("mubashirhassan", "crazy") ➞ "bmusarhiahass n"
+
+    NicoCipher("edabitisamazing", "matt") ➞ "deabtiismaaznig "
+
+    NicoCipher("iloveher", "612345") ➞ "lovehir    e"
+    Notes
+    Keys will have alphabets or numbers only.*/
+
     public class Program
     {
         
-
-    
-        struct StudentRow
+        public static string NicoCipher(string Message, string KeyToEncrypt)
         {
-            string name;
-            int id;
-            int age;
-            string email;
-            int phoneno;
-            string dateofbirth;
-            string dept;
-            int facultyincharge;
+            Dictionary <Tuple<string, int>, int> ValueOfChars= new Dictionary <Tuple<string, int>, int> ();
+            List<Tuple<string,int>>KeyInChars=new List<Tuple<string, int>>();
+            int _Index = 1; 
+            foreach (char Character in KeyToEncrypt)
+            {
+                KeyInChars.Add(new Tuple<string,int>(Character.ToString(),_Index));
+                _Index++;
+            }
+            KeyInChars.Sort();
+            _Index = 1;
+            foreach (var tuple in KeyInChars)
+            {   
+                ValueOfChars.Add(tuple,_Index); 
+                _Index++;
+            }
+            var SequenceOfKey= new List<int>();
+            _Index = 1;
+            foreach (char Character in KeyToEncrypt)
+            {
+                SequenceOfKey.Add(ValueOfChars[new Tuple<string, int>(Character.ToString(),_Index)]);
+                _Index++;
+            }
+            int NumberOfRows=Message.Length%KeyToEncrypt.Length==0?(Message.Length/KeyToEncrypt.Length): (Message.Length / KeyToEncrypt.Length)+1;
+            Dictionary <int,List<string>> EncrytionMatrix=new Dictionary <int,List<string>>();
+
+            int _Index1 = 0;
+            for (_Index = 0; _Index < NumberOfRows; _Index++)
+            {   
+                foreach (int i in SequenceOfKey)
+                {
+                    if (EncrytionMatrix.ContainsKey(i))
+                    {
+                        if(Message.Length-1>= _Index1)
+                            EncrytionMatrix[i].Add(Message[_Index1].ToString());
+                        else
+                            EncrytionMatrix[i].Add(" ");
+                    }
+                    else
+                    {
+                        EncrytionMatrix.Add(i, new List<string>());
+                        if (Message.Length - 1 >= _Index1)
+                            EncrytionMatrix[i].Add(Message[_Index1].ToString());
+                        else
+                            EncrytionMatrix[i].Add(" ");
+                        
+                    }
+                    _Index1++;
+                }
+            }
+       
+            SequenceOfKey.Sort();
+            string Output = "";
+            for (_Index = 0; _Index < NumberOfRows; _Index++)
+            {
+                foreach (int i in SequenceOfKey)
+                {
+                    Output += EncrytionMatrix[i][_Index];
+                }
+            }
+
+            return Output;
         }
         public static void Main(string[] args)
         {
-            string connetionString = @"Data Source=5CG9410FJD;Initial Catalog=Practice Database;Integrated Security=True;Encrypt=False;";
-            using (SqlConnection conn = new SqlConnection(connetionString))
-            { 
-                conn.Open();
-                using(SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = "display_details";
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while(reader.Read())
-                    {
-                        for(int i=0;i<reader.FieldCount;i++) 
-                        {
-                            Console.Write(reader[i].ToString().Trim()+ " ");
-                        }
-                        Console.WriteLine();
-                    }
-                    reader.Close();
-                    Console.WriteLine();    
-                    cmd.CommandText = "sortby_column";
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@table_name", "employee"));
-                    cmd.Parameters.Add(new SqlParameter("@column_name", "salary"));
-                    cmd.Parameters.Add(new SqlParameter("@sortby", "desc"));
-                    reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            Console.Write(reader[i].ToString().Trim() + " ");
-                        }
-                        Console.WriteLine();
-                    }
-                }
-            }
-            
-
+            Console.WriteLine(NicoCipher("iloveher", "612345"));
         }
     }
     
