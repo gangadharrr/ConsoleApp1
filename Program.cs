@@ -26,13 +26,7 @@ namespace ConsoleApp1
 {
     public class Program
     {
-        public class Mydata
-        {
-            public int projectId { get; set; }
-            public string position { get; set; }
-            public string duration { get; set; }
-        }
-        List<Mydata> dataList = new List<Mydata>();
+        
 
     
         struct StudentRow
@@ -53,49 +47,14 @@ namespace ConsoleApp1
             conn.Open();
             
             SqlCommand command = conn.CreateCommand();
-            int Student_Id= Convert.ToInt32(Console.ReadLine());
-            command.CommandText = $"select count(*) from student where id={Student_Id} ";
+
             try
             {
-                int count = (int)command.ExecuteScalar();
-                if (count == 0)
-                {
-                    command.CommandText = $"insert into student(Id,department) values ({Student_Id},'PHY')";
-                    SqlDataReader reader = command.ExecuteReader();
-                    Console.WriteLine("Inserted Successfully");
-                }
-                else
-                {
-                    Console.WriteLine($"StudentId {Student_Id} Already Exist");
-                }
-                /*while (reader.Read())
-                {
-                    Mydata data = new Mydata();
-                    data.projectId = (int)reader["projectId"];
-                    data.position = (string)reader["position"];
-                    data.duration = (string)reader["duration"];
-
-                    dataList.Add(data);
-                    //Console.WriteLine(reader.GetInt32(0)+" "+ reader.GetString(1) + " " + reader.GetString(2));
-                }
-
-                foreach (Mydata data in dataList)
-                {
-                    Console.WriteLine(data.projectId + " " + data.position + " " + data.duration);
-                }*/
-
-                /* int i = 0;
-
-                 while(reader.Read())
-                 {
-                     for (int j = 0; j < reader.FieldCount; j++)
-                     {
-                         Console.Write(reader[j] + " ");
-                     }
-                     Console.WriteLine();
-                     i++;
-                 }
-                 */
+             
+                command.CommandText = $"Delete from student where name is NULL";
+                SqlDataReader reader = command.ExecuteReader();
+                Console.WriteLine("Deleted Successfully");
+              
             }
             catch(SqlException ex)
             { Console.WriteLine(ex.Message); }
