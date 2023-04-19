@@ -23,113 +23,89 @@ using Microsoft.Data.SqlClient;
 using System.Reflection.PortableExecutable;
 using static Azure.Core.HttpHeader;
 using System.Reflection.Metadata;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ConsoleApp1
 {
-    /*In Nico Cipher, encoding is done by creating a numeric key and assigning each letter position of the message with the provided key.
-
-    Create a function that takes two arguments, key and message, and returns the encoded message.
-
-    There are some variations on the rules of encipherment.One version of the cipher rules are outlined below:
-
-    message = "mubashirhassan"
-    key = "crazy"
-
-    nicoCipher(message, key) ➞ "bmusarhiahass n"
-    Step 1: Assign numbers to sorted letters from the key:
-
-    "crazy" = 23154
-    Step 2: Assign numbers to the letters of the given message:
-
-    2 3 1 5 4
-    ---------
-    m u b a s
-    h i r h a
-    s s a n
-    Step 3: Sort columns as per assigned numbers:
-
-    1 2 3 4 5
-    ---------
-    eMessage = "bmusarhiahass n"
-    Examples
-    NicoCipher("mubashirhassan", "crazy") ➞ "bmusarhiahass n"
-
-    NicoCipher("edabitisamazing", "matt") ➞ "deabtiismaaznig "
-
-    NicoCipher("iloveher", "612345") ➞ "lovehir    e"
-    Notes
-    Keys will have alphabets or numbers only.*/
-
+    public class Student
+    {
+        public int id { set; get; }
+        public string name { set; get; }
+        public int age { set; get; }
+    }
     public class Program
     {
-        
-        public static string NicoCipher(string Message, string KeyToEncrypt)
-        {
-            Dictionary <Tuple<string, int>, int> ValueOfChars= new Dictionary <Tuple<string, int>, int> ();
-            List<Tuple<string,int>>KeyInChars=new List<Tuple<string, int>>();
-            int _Index = 1; 
-            foreach (char Character in KeyToEncrypt)
-            {
-                KeyInChars.Add(new Tuple<string,int>(Character.ToString(),_Index));
-                _Index++;
-            }
-            KeyInChars.Sort();
-            _Index = 1;
-            foreach (var tuple in KeyInChars)
-            {   
-                ValueOfChars.Add(tuple,_Index); 
-                _Index++;
-            }
-            var SequenceOfKey= new List<int>();
-            _Index = 1;
-            foreach (char Character in KeyToEncrypt)
-            {
-                SequenceOfKey.Add(ValueOfChars[new Tuple<string, int>(Character.ToString(),_Index)]);
-                _Index++;
-            }
-            int NumberOfRows=Message.Length%KeyToEncrypt.Length==0?(Message.Length/KeyToEncrypt.Length): (Message.Length / KeyToEncrypt.Length)+1;
-            Dictionary <int,List<string>> EncrytionMatrix=new Dictionary <int,List<string>>();
-
-            int _Index1 = 0;
-            for (_Index = 0; _Index < NumberOfRows; _Index++)
-            {   
-                foreach (int i in SequenceOfKey)
-                {
-                    if (EncrytionMatrix.ContainsKey(i))
-                    {
-                        if(Message.Length-1>= _Index1)
-                            EncrytionMatrix[i].Add(Message[_Index1].ToString());
-                        else
-                            EncrytionMatrix[i].Add(" ");
-                    }
-                    else
-                    {
-                        EncrytionMatrix.Add(i, new List<string>());
-                        if (Message.Length - 1 >= _Index1)
-                            EncrytionMatrix[i].Add(Message[_Index1].ToString());
-                        else
-                            EncrytionMatrix[i].Add(" ");
-                        
-                    }
-                    _Index1++;
-                }
-            }
-       
-            SequenceOfKey.Sort();
-            string Output = "";
-            for (_Index = 0; _Index < NumberOfRows; _Index++)
-            {
-                foreach (int i in SequenceOfKey)
-                {
-                    Output += EncrytionMatrix[i][_Index];
-                }
-            }
-
-            return Output;
-        }
         public static void Main(string[] args)
         {
-            Console.WriteLine(NicoCipher("iloveher", "612345"));
+           /* List <string> Names=new List<string>() { "Gangadhar","Ashwin","Arjun","karan"};
+            var Query1=from name in Names select name;
+            var Query2 = Names.ToList();
+            foreach(var name in Query1)
+            {
+                Console.WriteLine(name);
+            }
+            foreach(var name in Query2)
+            {
+                Console.WriteLine(name);
+            }*/
+            List <Student> students = new List<Student>()
+            { 
+                new Student(){ id=1,name="Gangadhar",age=20},
+                new Student(){ id=2,name="Aswin",age=21},
+                new Student(){ id=3,name="Arjun",age=24},
+                new Student(){ id=4,name="Karan",age=23}
+            };/*
+            var Query3=from student in students where(student.age>=21) select student.name;
+            foreach( var studentName in Query3)
+            {
+                    Console.WriteLine(studentName);
+            }
+            var Query4=students.Where(x=>x.age>=21).Select(x=>x.name);
+            foreach (var studentName in Query4)
+            {
+                Console.WriteLine(studentName);
+            }
+            List<List<int>> nestedList = new List<List<int>>() {
+                new List<int>(){ 1,2,3,4,5},
+                new List<int>(){ 7,8,9,10}
+
+
+            };
+            var Query5=nestedList.SelectMany(x=>x.Where(y=>(y&1)==0));
+            foreach( var nestedName in Query5)
+            { Console.WriteLine(nestedName); }
+            List<object> listOfObjects=new List<object>()
+            {
+                1,"heelo",3.6,'e',2.5,2,4,"world","welcome"
+            };  
+            var Query6=listOfObjects.OfType<int>().ToList().OrderBy(a=>-a);
+            foreach (var item in Query6)
+            {
+                Console.WriteLine(item);
+            }
+            var Query7= from obj in listOfObjects where obj is int orderby obj select obj;
+            (from obj in listOfObjects where obj is int select obj).ToList().ForEach(x => Console.Write(x));
+            Console.WriteLine();
+            foreach (var item in Query7)
+            {
+                Console.WriteLine(item);
+            }
+            listOfObjects.Reverse();
+            foreach(var item in listOfObjects)
+            {
+                Console.WriteLine(item);
+            }*/
+
+            List<int> listOfIntegers = new List<int>() { 1, 2, 3, 4, 5,10, 3,4,5 };
+            listOfIntegers.Take(3).ToList().ForEach(i => Console.WriteLine(i));
+            listOfIntegers.TakeWhile(i=>i<10).ToList().ForEach(i => Console.WriteLine(i));
+            listOfIntegers = listOfIntegers.ConvertAll(a => a * 10);
+            Console.WriteLine($"{string.Join(",", listOfIntegers)}");
+            students.Select(x => x.name).Distinct().ToList().ForEach(x => Console.WriteLine(x));
+            students.DistinctBy(x => x.name.Length).Select(x => x.name).ToList().ForEach(x => Console.WriteLine(x));
+            students.Select(x => x.age).Except(listOfIntegers).ToList().ForEach(x => Console.WriteLine(x));
+            Console.WriteLine($"{string.Join(",", listOfIntegers.ConvertAll(a => Convert.ToChar(a) + 0.2))}");
+
         }
     }
     
