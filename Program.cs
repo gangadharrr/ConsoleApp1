@@ -97,14 +97,16 @@ namespace ConsoleApp1
             }*/
 
             List<int> listOfIntegers = new List<int>() { 1, 2, 3, 4, 5,10, 3,4,5 };
-            listOfIntegers.Take(3).ToList().ForEach(i => Console.WriteLine(i));
+            listOfIntegers.Skip(5).ToList().ForEach(i => Console.WriteLine(i));
+            listOfIntegers.SkipWhile(i=>i<4).ToList().ForEach(i => Console.WriteLine(i));
+            /*listOfIntegers.Take(3).ToList().ForEach(i => Console.WriteLine(i));
             listOfIntegers.TakeWhile(i=>i<10).ToList().ForEach(i => Console.WriteLine(i));
             listOfIntegers = listOfIntegers.ConvertAll(a => a * 10);
             Console.WriteLine($"{string.Join(",", listOfIntegers)}");
             students.Select(x => x.name).Distinct().ToList().ForEach(x => Console.WriteLine(x));
             students.DistinctBy(x => x.name.Length).Select(x => x.name).ToList().ForEach(x => Console.WriteLine(x));
             students.Select(x => x.age).Except(listOfIntegers).ToList().ForEach(x => Console.WriteLine(x));
-            Console.WriteLine($"{string.Join(",", listOfIntegers.ConvertAll(a => Convert.ToChar(a) + 0.2))}");
+            Console.WriteLine($"{string.Join(",", listOfIntegers.ConvertAll(a => Convert.ToChar(a) + 0.2))}");*/
 
         }
     }
