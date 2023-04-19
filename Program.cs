@@ -32,81 +32,43 @@ namespace ConsoleApp1
         public int id { set; get; }
         public string name { set; get; }
         public int age { set; get; }
+    }public class Marks
+    {
+        public int id { set; get; }
+        public int m1 { set; get; }
+        public int m2 { set; get; }
     }
     public class Program
     {
         public static void Main(string[] args)
         {
-           /* List <string> Names=new List<string>() { "Gangadhar","Ashwin","Arjun","karan"};
-            var Query1=from name in Names select name;
-            var Query2 = Names.ToList();
-            foreach(var name in Query1)
-            {
-                Console.WriteLine(name);
-            }
-            foreach(var name in Query2)
-            {
-                Console.WriteLine(name);
-            }*/
+          
             List <Student> students = new List<Student>()
             { 
                 new Student(){ id=1,name="Gangadhar",age=20},
                 new Student(){ id=2,name="Aswin",age=21},
                 new Student(){ id=3,name="Arjun",age=24},
                 new Student(){ id=4,name="Karan",age=23}
-            };/*
-            var Query3=from student in students where(student.age>=21) select student.name;
-            foreach( var studentName in Query3)
-            {
-                    Console.WriteLine(studentName);
-            }
-            var Query4=students.Where(x=>x.age>=21).Select(x=>x.name);
-            foreach (var studentName in Query4)
-            {
-                Console.WriteLine(studentName);
-            }
-            List<List<int>> nestedList = new List<List<int>>() {
-                new List<int>(){ 1,2,3,4,5},
-                new List<int>(){ 7,8,9,10}
-
-
             };
-            var Query5=nestedList.SelectMany(x=>x.Where(y=>(y&1)==0));
-            foreach( var nestedName in Query5)
-            { Console.WriteLine(nestedName); }
-            List<object> listOfObjects=new List<object>()
+            List <Marks> studentsMarks = new List<Marks>()
+            { 
+                new Marks(){ id=1,m1=99,m2=25},
+                new Marks(){ id=2,m1=29,m2=45},
+                new Marks(){ id=3,m1=98,m2=75},
+                new Marks(){ id=4,m1=72,m2=65}              
+            };
+            var query = from std in students
+                        join mrks in studentsMarks on std.id equals mrks.id
+                        select (std.name, mrks.m1, mrks.m2);
+            foreach(var item in query )
             {
-                1,"heelo",3.6,'e',2.5,2,4,"world","welcome"
-            };  
-            var Query6=listOfObjects.OfType<int>().ToList().OrderBy(a=>-a);
-            foreach (var item in Query6)
-            {
-                Console.WriteLine(item);
+                Console.WriteLine(item.name+" "+item.m1+" "+item.m2);
             }
-            var Query7= from obj in listOfObjects where obj is int orderby obj select obj;
-            (from obj in listOfObjects where obj is int select obj).ToList().ForEach(x => Console.Write(x));
-            Console.WriteLine();
-            foreach (var item in Query7)
+            var query1 = students.Join(studentsMarks, x => x.id, y => y.id, (x, y) => new { x.name, y.m1, y.m2 });
+            foreach(var item in query1 )
             {
-                Console.WriteLine(item);
+                Console.WriteLine(item.name+" "+item.m1+" "+item.m2);
             }
-            listOfObjects.Reverse();
-            foreach(var item in listOfObjects)
-            {
-                Console.WriteLine(item);
-            }*/
-
-            List<int> listOfIntegers = new List<int>() { 1, 2, 3, 4, 5,10, 3,4,5 };
-            listOfIntegers.Skip(5).ToList().ForEach(i => Console.WriteLine(i));
-            listOfIntegers.SkipWhile(i=>i<4).ToList().ForEach(i => Console.WriteLine(i));
-            /*listOfIntegers.Take(3).ToList().ForEach(i => Console.WriteLine(i));
-            listOfIntegers.TakeWhile(i=>i<10).ToList().ForEach(i => Console.WriteLine(i));
-            listOfIntegers = listOfIntegers.ConvertAll(a => a * 10);
-            Console.WriteLine($"{string.Join(",", listOfIntegers)}");
-            students.Select(x => x.name).Distinct().ToList().ForEach(x => Console.WriteLine(x));
-            students.DistinctBy(x => x.name.Length).Select(x => x.name).ToList().ForEach(x => Console.WriteLine(x));
-            students.Select(x => x.age).Except(listOfIntegers).ToList().ForEach(x => Console.WriteLine(x));
-            Console.WriteLine($"{string.Join(",", listOfIntegers.ConvertAll(a => Convert.ToChar(a) + 0.2))}");*/
 
         }
     }
